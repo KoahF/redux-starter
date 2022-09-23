@@ -1,10 +1,12 @@
-import store from './store';
-import { bugAdded, bugRemoved, bugResolved } from './actions';
+import configureStore from './store/configureStore';
+import * as actions from './store/bugs';
 
-store.dispatch(bugAdded('Bug 1'));
-store.dispatch(bugAdded('Bug 2'));
-store.dispatch(bugAdded('Bug 3'));
+const store = configureStore();
+
+store.dispatch(actions.bugAdded({ description: 'Bug 1' }));
+store.dispatch(actions.bugAdded({ description: 'Bug 2' }));
+store.dispatch(actions.bugAdded({ description: 'Bug 3' }));
 console.log(store.getState());
 
-store.dispatch(bugResolved(1));
+store.dispatch(actions.bugResolved({ id: 1 }));
 console.log('Store resolved bug', store.getState());
