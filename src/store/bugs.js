@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 let lastId = 0;
 const slice = createSlice({
@@ -23,9 +23,14 @@ const slice = createSlice({
 });
 
 // Selectors
-export function getUnresolvedBugs(state) {
-	return state.entities.bugs.filter((bug) => !bug.resolved);
-}
+// export function getUnresolvedBugs(state) {
+// 	return state.entities.bugs.filter((bug) => !bug.resolved);
+// }
+
+export const getUnresolvedBugs = createSelector(
+	(state) => state.entities.bugs,
+	(bugs) => bugs.filter((bug) => !bug.resolved)
+);
 
 export const { bugAdded, bugResolved } = slice.actions;
 export default slice.reducer;
