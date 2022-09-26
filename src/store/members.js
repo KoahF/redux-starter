@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 let lastId = 0;
 const slice = createSlice({
-	name: members,
+	name: 'members',
 	initialState: [],
 	reducers: {
 		memberAdded: (members, action) => {
