@@ -1,6 +1,7 @@
 import configureStore from './store/configureStore';
 import { bugAdded, bugResolved, getUnresolvedBugs } from './store/bugs';
 import { projectAdded } from './store/projects';
+
 const store = configureStore();
 
 store.dispatch(projectAdded({ name: 'Project 1' }));
