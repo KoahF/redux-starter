@@ -9,7 +9,6 @@ const slice = createSlice({
 			members.push({
 				id: ++lastId,
 				name: action.payload.name,
-				bugIds: [],
 			});
 		},
 	},

@@ -32,19 +32,26 @@ const slice = createSlice({
 			bugs.list.filter((item) => item.id !== action.payload.id);
 		},
 
+		bugAssignedToMember: (bugs, action) => {
+			const { id: bugId, userId } = action.payload;
+			const index = bugs.list.findIndex((bug) => bug.id === bugId);
+			bugs.list[index].userId = userId;
+		},
+
 		bugResolved: (bugs, action) => {
-			const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+			const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
 			bugs.list[index].resolved = true;
 		},
 	},
 });
 
-export const {
+const {
 	bugAdded,
 	bugResolved,
 	bugsReceived,
 	bugsRequested,
 	bugsRequestFailed,
+	bugAssignedToMember,
 } = slice.actions;
 export default slice.reducer;
 
@@ -72,6 +79,27 @@ export const addBug = (bug) =>
 		method: 'POST',
 		data: bug,
 		onSuccess: bugAdded.type,
+	});
+
+export const assignBugToMember = (bugId, userId) =>
+	apiCallBegan({
+		url: `${API_ENDPOINT}/${bugId}`,
+		method: 'PATCH',
+		data: {
+			bugId,
+			userId,
+		},
+		onSuccess: bugAssignedToMember.type,
+	});
+
+export const resolveBug = (bugId) =>
+	apiCallBegan({
+		url: `${API_ENDPOINT}/${bugId}`,
+		method: 'PATCH',
+		data: {
+			resolved: true,
+		},
+		onSuccess: bugResolved.type,
 	});
 
 // Selectors
