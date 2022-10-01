@@ -1,4 +1,4 @@
-import { isEven } from './src/math';
+import { isEven } from '../math';
 
 describe('isEven', () => {
 	it('should return true if number is even', () => {
@@ -8,6 +8,6 @@ describe('isEven', () => {
 
 	it('should return false if number is odd', () => {
 		const result = isEven(3);
-		expect(result).toEqual(false);
+		expect(result).toEqual(false); 
 	});
 });
