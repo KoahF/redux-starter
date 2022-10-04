@@ -105,5 +105,5 @@ export const resolveBug = (bugId) =>
 // Selectors
 export const getUnresolvedBugs = createSelector(
 	(state) => state.entities.bugs,
-	(bugs) => bugs.filter((bug) => !bug.resolved)
+	(bugs) => bugs.list.filter((bug) => !bug.resolved)
 );
