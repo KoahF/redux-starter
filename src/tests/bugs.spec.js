@@ -1,4 +1,4 @@
-import { addBug, getUnresolvedBugs } from '../store/bugs';
+import bugs, { addBug, getUnresolvedBugs, resolveBug } from '../store/bugs';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import configureStore from '../store/configureStore';
@@ -41,7 +41,27 @@ describe('bugsSlice', () => {
 		expect(bugsSlice().list).toHaveLength(0);
 	});
 
-	it("should resolved a bug in the store if it's resolved to the server", async () => {});
+	it("should resolved a bug in the store if it's resolved to the server", async () => {
+		const resolvedBug = { id: 2, resolved: true };
+		fakeAxios.onPost("/bugs").reply(200, { id: 2, resolved: false})
+		fakeAxios.onPatch(`bugs/2`).reply(200, resolvedBug);
+
+		await store.dispatch(addBug({}))
+		await store.dispatch(resolveBug(2));
+
+		expect(bugsSlice().list[0].resolved).toBe(true);
+	});
+
+	it("should not resolved a bug in the store if it's not resolved to the server", async () => {
+		const resolvedBug = { id: 2, resolved: true };
+		fakeAxios.onPost("/bugs").reply(200, { id: 2, resolved: false})
+		fakeAxios.onPatch(`bugs/2`).reply(500, resolvedBug);
+
+		await store.dispatch(addBug({}))
+		await store.dispatch(resolveBug(2));
+
+		expect(bugsSlice().list[0].resolved).not.toBe(true);
+	});
 
 	describe('selectors', () => {
 		it('getUnresolvedBugs', () => {
