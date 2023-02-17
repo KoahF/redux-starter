@@ -21,6 +21,7 @@ const slice = createSlice({
 		},
 
 		bugsRequestFailed: (bugs, action) => {
+			console.log('Failed request')
 			bugs.loading = false;
 		},
 
@@ -63,7 +64,7 @@ export const loadBugs = () => (dispatch, getState) => {
 	const diffInMinutes = moment().diff(moment(lastFetch), 'minutes');
 	if (diffInMinutes < 10) return;
 
-	dispatch(
+	return dispatch(
 		apiCallBegan({
 			url: API_ENDPOINT,
 			onStart: bugsRequested.type,
